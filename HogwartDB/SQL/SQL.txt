@@ -1,0 +1,145 @@
+create table houses(
+house_name varchar(255)  primary key,
+mascot text(256),
+motto text(256),
+house_ghost text(256)
+);
+
+
+create table students(
+student_id int(11)  primary key AUTO_INCREMENT not null,
+first_name text(256) not null,
+last_name  text(256) not null,
+class_year text(255) not null,
+house_name varchar(255) not null,
+ constraint house_n2 foreign key (house_name) references houses (house_name)
+);
+
+
+create table professors(
+professor_id int(11)  primary key AUTO_INCREMENT not null,
+first_name text (256) not null,
+last_name text(256) not null
+);
+
+
+create table courses(
+course_id int(11) PRIMARY KEY NOT null AUTO_INCREMENT ,
+name text(255) not null,
+description text(255) not null,
+required_textbook text(255) not null,
+required_equipment text(255) not null
+);
+
+create table enrolls_in(
+student_id int(11) not null,
+course_id int(11) not null,
+
+exam text(255) not null,
+
+grade int(11) not null,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    FOREIGN KEY (course_id) REFERENCES courses(course_id)
+);
+
+
+create table teaches(
+professor_id int(11) not null,
+course_id int(11) not null,
+classroom text(255) not null,
+    
+    FOREIGN KEY (professor_id) REFERENCES professors(professor_id),
+    FOREIGN KEY (course_id) REFERENCES courses(course_id)
+
+
+);
+
+
+create table head_of(
+professor_id int(11)  primary key  references professors (professor_id),
+
+house_name varchar(255)  unique  references houses (house_name) 
+);
+
+
+
+select students.first_name, courses.name
+from students
+join enrolls_in
+on students.student_id = enrolls_in.student_id
+join courses
+on enrolls_in.course_id = courses.course_id;
+
+
+
+select professors.first_name, courses.name, teaches.classroom
+from professors
+join teaches 
+on professors.professor_id = teaches.professor_id
+join courses
+on teaches.course_id = courses.course_id;
+
+
+
+select professors.first_name, houses.house_name
+from professors
+join head_of 
+on professors.professor_id = head_of.professor_id
+join 
+houses
+on houses.house_name = head_of.house_name;
+
+
+select students.first_name, houses.house_name
+from students 
+join houses 
+on students.house_name = houses.house_name;
+
+
+select students.first_name, houses.house_name, courses.name
+from houses
+join students
+on students.house_name = houses.house_name
+join enrolls_in 
+on students.student_id = enrolls_in.student_id 
+join courses 
+on enrolls_in.course_id = courses.course_id;
+
+
+select students.first_name, houses.house_name, courses.name AS course_name, professors.first_name AS Courses_Lecturer
+from houses
+join students
+on students.house_name = houses.house_name
+join enrolls_in 
+on students.student_id = enrolls_in.student_id 
+join courses 
+on enrolls_in.course_id = courses.course_id
+join teaches 
+on courses.course_id = teaches.course_id
+join professors 
+on teaches.professor_id = professors.professor_id;
+
+
+
+select professors.first_name AS Professor_name , courses.name Course_name, teaches.classroom, head_of.house_name Head_of
+from teaches 
+join  professors
+on professors.professor_id = teaches.professor_id
+join courses
+on teaches.course_id = courses.course_id
+join head_of
+on professors.professor_id = head_of.professor_id;
+
+
+SELECT students.student_id, students.first_name, courses.name
+from students 
+join enrolls_in 
+on students.student_id = enrolls_in.student_id
+join courses 
+on enrolls_in.course_id = courses.course_id;
+
+
+
+
+
+
