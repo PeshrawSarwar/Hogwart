@@ -3,9 +3,12 @@ let filterInput = document.getElementById("filterInput");
 filterInput.addEventListener("keyup", myFunction);
 
 function myFunction() {
+  
+  
   let select = document.getElementById("type");
   let value = select.value;
   if (value == "id") {
+    
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("filterInput");
     filter = input.value.toUpperCase();

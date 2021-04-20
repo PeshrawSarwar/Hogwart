@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $dBUsername = "root";
-$dBPassword = "";
+$dBPassword = "root";
 $dBName = "hogwart";
 
 $conn = mysqli_connect($servername, $dBUsername, $dBPassword, $dBName);
